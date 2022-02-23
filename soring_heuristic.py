@@ -24,7 +24,7 @@ def initial_sorted_key(tile: Tile):
     # return -1 * tile.width, - 1 * tile.height
 
 
-def insert_tiles(tiles) -> Tuple[Tiles, Dict[int, int]]:
+def insert_tiles(tiles: Tiles) -> Tuple[Tiles, Dict[int, int]]:
     max_height_per_x = {x: 0 for x in range(BIN_WIDTH)}
     assigned_tails = list()
     for tile in tiles:
@@ -34,7 +34,7 @@ def insert_tiles(tiles) -> Tuple[Tiles, Dict[int, int]]:
         for w in range(tile.width):
             max_height_per_x[x_start + w] = highest_y + tile.height
 
-    return tuple(assigned_tails), max_height_per_x
+    return assigned_tails, max_height_per_x
 
 
 def find_best_feasible_x(tile: Tile, max_height_per_x) -> int:

@@ -1,9 +1,8 @@
 import itertools
 import random
-from random import randint
-from typing import Iterable, Tuple
-
 from dataclasses import dataclass, replace
+from random import randint
+from typing import Collection, Iterable, Tuple
 
 BIN_WIDTH = 6
 
@@ -14,6 +13,9 @@ class Coordinate:
     y: int
 
     replace = replace
+
+
+Coordinates = Collection[Coordinate]
 
 
 @dataclass(frozen=True, repr=False)
@@ -55,13 +57,9 @@ def create_random_tile(tile_id: int) -> Tile:
     )
 
 
-def initialise(
-    number_of_tiles: int, seed: float, grouped: bool = True
-) -> Tuple[Tiles, Tiles]:
+def initialise(number_of_tiles: int, seed: float, grouped: bool = True) -> Tuple[Tiles, Tiles]:
     random.seed(seed)
-    tiles = tuple(
-        create_random_tile(tile_id) for tile_id in range(1, number_of_tiles + 1)
-    )
+    tiles = tuple(create_random_tile(tile_id) for tile_id in range(1, number_of_tiles + 1))
     if grouped:
         return fill_until_match(tiles)
     else:
@@ -84,8 +82,7 @@ def fill_until_match(tiles: Tiles) -> Tuple[Tiles, Tiles]:
     }
     listed_tiles += list(full_width_tiles)
     sum_heights = {
-        width: sum(tile.height for tile in tiles)
-        for width, tiles in groups_by_width.items()
+        width: sum(tile.height for tile in tiles) for width, tiles in groups_by_width.items()
     }
     for width in [5, 4]:
         if (width in sum_heights.keys()) and (BIN_WIDTH - width in sum_heights.keys()):
@@ -114,9 +111,7 @@ def fill_until_match(tiles: Tiles) -> Tuple[Tiles, Tiles]:
 
 
 def remove_extra_tile(tiles: Tiles, sum_heights: int, diff):
-    tile_to_remove = sorted(
-        tiles, key=lambda tile: (abs(tile.height - diff), tile.height)
-    )[0]
+    tile_to_remove = sorted(tiles, key=lambda tile: (abs(tile.height - diff), tile.height))[0]
     sum_heights -= tile_to_remove.height
     tiles.remove(tile_to_remove)
 

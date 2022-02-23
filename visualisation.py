@@ -1,5 +1,8 @@
 import random
-from matplotlib import pyplot as plt, patches as patches
+
+from matplotlib import patches as patches
+from matplotlib import pyplot as plt
+
 from main import Tiles
 
 
